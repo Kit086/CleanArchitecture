@@ -1,5 +1,6 @@
 using CleanArchitecture.Application;
 using CleanArchitecture.Infrastructure;
+using CleanArchitecture.Infrastructure.Persistence;
 using CleanArchitecture.WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,14 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
+    // Initialize and seed db
+    using (var scope = app.Services.CreateScope())
+    {
+        var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
+        await initializer.InitialiseAsync();
+        await initializer.SeedAsync();
+    }
 }
 app.UseHealthChecks("/health");
 
@@ -32,3 +41,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// Make the implicit Program class public so test projects can access it
+public partial class Program { }
