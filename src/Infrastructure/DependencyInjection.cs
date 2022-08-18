@@ -22,11 +22,12 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddScoped<ApplicationDbContextInitializer>();
-        
+
         services.AddScoped<AuditableEntitySaveChangesInterceptor>();
 
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
+                builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
@@ -44,7 +45,7 @@ public static class DependencyInjection
             .AddSignInManager()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
-        
+
         var jwtSettings = new JwtBearerSettings();
         var jwtSettingsSection = configuration.GetSection("JwtBearer");
         jwtSettingsSection.Bind(jwtSettings);
@@ -64,7 +65,8 @@ public static class DependencyInjection
                 {
                     ValidIssuer = jwtSettings.Issuer,
                     ValidAudience = jwtSettings.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.IssuerSigningKey)),
+                    IssuerSigningKey =
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.IssuerSigningKey)),
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
@@ -75,7 +77,7 @@ public static class DependencyInjection
 
         services.AddAuthorization(options =>
             options.AddPolicy("GodCallMeGod", policy => policy.RequireRole("Administrator")));
-        
+
         services.AddSingleton<IDateTime, DateTimeService>();
         services.AddTransient<IIdentityService, IdentityService>();
         services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
