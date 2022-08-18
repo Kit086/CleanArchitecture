@@ -36,7 +36,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, AuthenticationResul
     {
         if (await _userManager.FindByEmailAsync(request.Email) is not { } user)
         {
-            throw new AuthException("The email or password is incorrect.");
+            throw new AppAuthenticationException("The email or password is incorrect.");
         }
         
         var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);
@@ -44,7 +44,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, AuthenticationResul
         if (!result.Succeeded)
         {
             // TODO: The meaning of the message is vague
-            throw new AuthException(result.ToString());
+            throw new AppAuthenticationException(result.ToString());
         }
     
         return new AuthenticationResult(

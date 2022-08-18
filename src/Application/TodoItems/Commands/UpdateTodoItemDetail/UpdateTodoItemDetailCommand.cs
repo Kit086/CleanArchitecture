@@ -33,7 +33,7 @@ public class UpdateTodoItemDetailCommandHandler : IRequestHandler<UpdateTodoItem
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(TodoItem), request.Id);
+            throw new AppNotFoundException(nameof(TodoItem), request.Id);
         }
 
         entity.ListId = request.ListId;

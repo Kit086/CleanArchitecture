@@ -15,11 +15,11 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         // Register known exception types and handlers.
         _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
-                { typeof(ValidationException), HandleValidationException },
-                { typeof(NotFoundException), HandleNotFoundException },
+                { typeof(AppValidationException), HandleAppValidationException },
+                { typeof(AppNotFoundException), HandleAppNotFoundException },
                 { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
-                { typeof(ForbiddenAccessException), HandleForbiddenAccessException },
-                { typeof(AuthException), HandlerAuthException }
+                { typeof(AppForbiddenAccessException), HandleAppForbiddenAccessException },
+                { typeof(AppAuthenticationException), HandlerAppAuthenticationException }
             };
     }
 
@@ -46,9 +46,9 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         }
     }
 
-    private void HandleValidationException(ExceptionContext context)
+    private void HandleAppValidationException(ExceptionContext context)
     {
-        var exception = (ValidationException)context.Exception;
+        var exception = (AppValidationException)context.Exception;
 
         var details = new ValidationProblemDetails(exception.Errors)
         {
@@ -72,9 +72,9 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandleNotFoundException(ExceptionContext context)
+    private void HandleAppNotFoundException(ExceptionContext context)
     {
-        var exception = (NotFoundException)context.Exception;
+        var exception = (AppNotFoundException)context.Exception;
 
         var details = new ProblemDetails()
         {
@@ -105,7 +105,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandleForbiddenAccessException(ExceptionContext context)
+    private void HandleAppForbiddenAccessException(ExceptionContext context)
     {
         var details = new ProblemDetails
         {
@@ -122,9 +122,9 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
     
-    private void HandlerAuthException(ExceptionContext context)
+    private void HandlerAppAuthenticationException(ExceptionContext context)
     {
-        var exception = (AuthException)context.Exception;
+        var exception = (AppAuthenticationException)context.Exception;
 
         var details = new ProblemDetails
         {

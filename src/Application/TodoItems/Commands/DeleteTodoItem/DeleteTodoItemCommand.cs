@@ -24,7 +24,7 @@ public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemComman
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(TodoItem), request.Id);
+            throw new AppNotFoundException(nameof(TodoItem), request.Id);
         }
 
         _context.TodoItems.Remove(entity);

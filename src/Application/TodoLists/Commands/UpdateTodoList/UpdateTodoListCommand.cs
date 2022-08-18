@@ -28,7 +28,7 @@ public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListComman
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(TodoList), request.Id);
+            throw new AppNotFoundException(nameof(TodoList), request.Id);
         }
 
         entity.Title = request.Title;

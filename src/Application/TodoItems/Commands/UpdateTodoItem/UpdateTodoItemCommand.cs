@@ -30,7 +30,7 @@ public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemComman
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(TodoItem), request.Id);
+            throw new AppNotFoundException(nameof(TodoItem), request.Id);
         }
 
         entity.Title = request.Title;

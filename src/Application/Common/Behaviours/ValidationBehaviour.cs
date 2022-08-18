@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using CleanArchitecture.Application.Common.Exceptions;
+using FluentValidation;
 using MediatR;
-using ValidationException = CleanArchitecture.Application.Common.Exceptions.ValidationException;
 
 namespace CleanArchitecture.Application.Common.Behaviours;
 
@@ -30,7 +30,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
                 .ToList();
 
             if (failures.Any())
-                throw new ValidationException(failures);
+                throw new AppValidationException(failures);
         }
         return await next();
     }

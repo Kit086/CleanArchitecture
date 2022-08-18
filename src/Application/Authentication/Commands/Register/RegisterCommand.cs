@@ -39,7 +39,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Authentic
     
         if (!result.Succeeded)
         {
-            throw new AuthException(result.Errors);
+            throw new AppAuthenticationException(result.Errors);
         }
     
         return new AuthenticationResult(
