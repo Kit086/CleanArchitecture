@@ -4,8 +4,8 @@ using MediatR;
 
 namespace CleanArchitecture.Application.TodoLists.Commands.PurgeTodoLists;
 
-[Authorize(Roles = "Administrator")]
-[Authorize(Policy = "CanPurge")]
+[AppAuthorize(Roles = "Administrator")]
+[AppAuthorize(Policy = "CanPurge")]
 public record PurgeTodoListsCommand : IRequest;
 
 public class PurgeTodoListsCommandHandler : IRequestHandler<PurgeTodoListsCommand>
