@@ -17,17 +17,20 @@ builder.Services.AddWebUIServices();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "testing")
 {
     app.UseSwagger();
     app.UseSwaggerUI();
     
     // Initialize and seed db
-    using (var scope = app.Services.CreateScope())
+    if (app.Environment.IsDevelopment())
     {
-        var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
-        await initializer.InitialiseAsync();
-        await initializer.SeedAsync();
+        using (var scope = app.Services.CreateScope())
+        {
+            var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
+            await initializer.InitialiseAsync();
+            await initializer.SeedAsync();
+        }
     }
 }
 app.UseHealthChecks("/health");
