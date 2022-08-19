@@ -76,7 +76,7 @@ public static class DependencyInjection
             });
 
         services.AddAuthorization(options =>
-            options.AddPolicy("GodCallMeGod", policy => policy.RequireRole("Administrator")));
+            options.AddPolicy("CanPurge", policy => policy.RequireRole("Administrator")));
 
         services.AddSingleton<IDateTime, DateTimeService>();
         services.AddTransient<IIdentityService, IdentityService>();
