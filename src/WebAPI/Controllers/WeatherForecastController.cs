@@ -1,8 +1,7 @@
 ﻿using CleanArchitecture.Application.WeatherForecasts.Queries.GetWeatherForecasts;
-using CleanArchitecture.WebAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CleanArchitecture.WebUI.Controllers;
+namespace CleanArchitecture.WebAPI.Controllers;
 
 public class WeatherForecastController : ApiControllerBase
 {
