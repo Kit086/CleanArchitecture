@@ -5,7 +5,7 @@ namespace CleanArchitecture.Application.Authentication.Common;
 
 public class UserResult : IMapFrom<ApplicationUser>
 {
-    public string Id { get; set; } = null!;
+    public string Id { get; init; } = null!;
     
     public string UserName { get; init; } = null!;
 

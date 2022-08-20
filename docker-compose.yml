@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  clean_architecture.webapi:
+    image: ${DOCKER_REGISTRY-}clean_architecture_webapi
+    container_name: clean_architecture_webapi
+    build:
+      context: .
+      dockerfile: ./src/WebApi/Dockerfile
+    ports:
+      - 10000:80
+      - 10001:443
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=clean_architecture.database;Port=5432;Username=kitlau;Password=password;Database=CleanArchitecture
+    depends_on:
+      - clean_architecture.database
+        
+  clean_architecture.database:
+    image: postgres:latest
+    container_name: clean_architecture_database
+    environment:
+      - POSTGRES_DB=CleanArchitecture
+      - POSTGRES_USER=kitlau
+      - POSTGRES_PASSWORD=password
+#    volumes:
+#      - ./files/db:/var/lib/postgresql/data
+    ports:
+      - 10002:5432
