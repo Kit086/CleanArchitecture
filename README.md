@@ -1,15 +1,17 @@
- <img align="left" width="116" height="116" alt="kit.CleanArchitecture logo" src="https://raw.githubusercontent.com/Kit086/CleanArchitecture/main/.github/kiticon.png" />
+ <img align="left" width="116" height="116" alt="kit.CleanArchitecture logo" src="https://raw.githubusercontent.com/Kit086/CleanArchitecture/main/.github/icon.png" />
 
-# Clean Architecture Solution
+# Clean Architecture Solution Template
 
 这是一个 Web API 的 Clean Architecture 的解决方案模板，可用于学习、个人项目和企业项目。
 
 ## Table Of Content
 
-- [Clean Architecture Solution](#clean-architecture-solution)
+- [Clean Architecture Solution Template](#clean-architecture-solution-template)
   - [Table Of Content](#table-of-content)
   - [Technologies](#technologies)
+  - [Give a Star! ⭐](#give-a-star-)
   - [Getting Started](#getting-started)
+    - [使用该模板构建自己的项目](#使用该模板构建自己的项目)
     - [使用内存数据库](#使用内存数据库)
     - [使用 docker compose](#使用-docker-compose)
     - [使用实例数据库](#使用实例数据库)
@@ -35,7 +37,38 @@
 
 如果您初入 dotnet 的坑不久，相信该项目中用到的一些技术和库会是您感兴趣的，有助于入门。
 
+## Give a Star! ⭐
+
+如果您喜欢这个项目，或正在使用这个项目来学习，或使用这个模板构建你的解决方案，请给它一个 Star，谢谢! 
+
+每个人对 Clean Architecture 都有自己的需求，如果您觉得该项目有可取之处，强烈建议您 fork 这个项目来构建您自己的 Clean Architecture 模板。
+
+如果您喜欢我的代码，欢迎关注我的微信公众号：
+
+<img width="128" alt="my wechat subscription account qr code" src="https://raw.githubusercontent.com/Kit086/CleanArchitecture/main/.github/wechat_gzh_qrcode.png" />
+
+以及我的博客：[https://blog.kitlau.dev/](https://blog.kitlau.dev/)
+
 ## Getting Started
+
+### 使用该模板构建自己的项目
+
+该模板尚未上传到 Nuget，如果您想安装该模板到 dotnet new 的菜单中，可以按如下步骤操作：
+1. 确定您的设备已经安装 [dotnet 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
+2. clone 该仓库，在解决方案的根目录下运行 `dotnet new --install .\` 命令，即可安装该模板：
+    ```powershell
+    PS C:\Users\kit\Documents\GitHub\CleanArchitecture> dotnet new --install .\
+    The following template packages will be installed:
+       C:\Users\kit\Documents\GitHub\CleanArchitecture
+    
+    Success: C:\Users\kit\Documents\GitHub\CleanArchitecture installed the following templates:
+    Template Name                    Short Name  Language  Tags
+    -------------------------------  ----------  --------  ------------------------------
+    Kit Clean Architecture Solution  kit-ca-sln  [C#]      Web/ASP.NET/Clean Architecture
+    ```
+3. 为您的解决方案创建一个文件夹，并 cd 到该文件夹下，模板将使用该文件夹名作为项目名称
+4. 运行 `dotnet new kit-ca-sln` 即可创建基于该模板的项目
+5. 继续往下看该文档，选择一种方式运行该项目
 
 ### 使用内存数据库
 
@@ -126,7 +159,7 @@ tests/接收测试的环境和数据库会通过 docker compose 创建，你不�
 
 我起初只是想使用 Clean Architecture 的模板构建项目，节省时间。后来我在使用模板过程中发现它依赖了 Microsoft.AspNetCore.ApiAuthorization.IdentityServer 这个库，该库又依赖了 Duende.IdentityServer，它是一个付费的库。 很多像我一样的贫困开发者承担这些付费库很困难。
 
-<center><img width="768" alt="ip man said I am not gonna give you the money" src="https://raw.githubusercontent.com/Kit086/CleanArchitecture/main/.github/ip_man01.png" /></center>
+<center><img width="768" alt="ip man said I am not gonna give you the money" src="https://raw.githubusercontent.com/Kit086/CleanArchitecture/main/.github/ip_man01.jpg" /></center>
 
 而且 jason taylor 的项目直接在 WebUI 层加了一个 Angular 的 SPA 模板，swagger 的生成方式也很奇怪，调用了本地的 C 盘里的一个 dll。可能因为我本地环境有点乱，我运行的前 4 次就失败了两次，无法直接运行起来使我难以接受。
 
