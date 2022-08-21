@@ -12,6 +12,7 @@ services:
       - 10001:443
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - UseInMemoryDatabase=false
       - ConnectionStrings__DefaultConnection=Host=clean_architecture.database;Port=5432;Username=kitlau;Password=password;Database=CleanArchitecture
     depends_on:
       - clean_architecture.database
