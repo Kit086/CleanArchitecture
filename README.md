@@ -2,7 +2,7 @@
 
 # Clean Architecture Solution Template
 
-这是一个 Web API 的 Clean Architecture 的解决方案模板，可用于学习、个人项目和企业项目。
+这是一个 Web API 的 Clean Architecture 的解决方案模板，可用于学习和中小型项目。
 
 ## Table Of Content
 
@@ -35,13 +35,15 @@
 7. XUnit, FluentAssertions, NSubstitute, SpecFlow & TestContainers
 8. Docker & Docker Compose
 
-如果您初入 dotnet 的坑不久，相信该项目中用到的一些技术和库会是您感兴趣的，有助于入门。
+相信该项目中用到的一些技术和库会是您感兴趣的。
 
 ## Give a Star! ⭐
 
-如果您喜欢这个项目，或正在使用这个项目来学习，或使用这个模板构建你的解决方案，请给它一个 Star，谢谢! 
+如果您喜欢这个项目，正在使用这个项目来学习，或使用这个模板构建您自己的项目，请给它一个 Star，谢谢! 
 
-每个人对 Clean Architecture 都有自己的需求，如果您觉得该项目有可取之处，强烈建议您 fork 这个项目来构建您自己的 Clean Architecture 模板。
+我个人并不喜欢使用模板，少了一些禅意，多了一些功利，常常使项目引入了不需要的库，把项目膨胀的越来越大。dotnet sdk 自带的模板足够用，构建本项目是为了学习。所以我并不建议您使用该模板构建自己的项目。
+
+每个人对 Clean Architecture 的期待都不同，如果您觉得该项目有可取之处，也有不满意的地方，强烈建议您 fork 这个项目来构建您自己的 Clean Architecture 模板。也可直接使用该项目生成您自己的解决方案，然后进行自定义的调整，作为您自己的 Clean Architecture 模板。
 
 如果您喜欢我的代码，欢迎关注我的微信公众号：
 
@@ -68,16 +70,16 @@
     ```
 3. 为您的解决方案创建一个文件夹，并 cd 到该文件夹下，模板将使用该文件夹名作为项目名称
 4. 运行 `dotnet new kit-ca-sln` 即可创建基于该模板的项目
-5. 继续往下看该文档，选择一种方式运行该项目
+5. 继续浏览该文档，选择一种方式运行该项目
 
 ### 使用内存数据库
 
-只需要以下环境：
+需要以下环境：
 - [dotnet 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
 
-在解决方案根目录中运行 `dotnet run --project .\src\WebAPI\` 即可。默认情况下使用 InMemoryDatabase 内存数据库。
+在解决方案根目录中运行 `dotnet run --project .\src\WebAPI\` 即可。默认使用 InMemoryDatabase 内存数据库。
 
-因为在 Development 环境下，会生成基于 swagger-ui 的 API 文档，访问 `https://localhost:7279/swagger/index.html` 查看该文档。
+在 Development 环境下，会生成基于 swagger-ui 的 API 文档，访问 `https://localhost:7279/swagger/index.html` 查看该文档。
 
 如果想使用实例数据库，可以继续往下看。
 
@@ -91,9 +93,9 @@
 
 ### 使用实例数据库
 
-首先需要有一个 Postgres 数据库实例，没有也没关系，可以用 Docker 方便快捷地解决：
+首先需要有一个 Postgres 数据库实例，没有也没关系，可以用 Docker 方便地创建：
 1. 如果运行在 Windows 系统，建议 Docker 使用基于 WSL2 的引擎（Use the WSL 2 based engine），因为该项目默认的 DockerDefaultTargetOS 是 Linux，不确定不使用 WSL2 会出什么奇怪问题
-2. 方案 1：运行以下命令跑一个 Postgres 的容器。请将 -e 的环境变量的值替换为您自己想要的值：
+2. 方案 1：运行以下命令，run 一个 Postgres 的容器。请将 -e 的各项环境变量值替换为您自己的值：
     ```powershell
     docker run --name postgres_default -e POSTGRES_USER=kitlau -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres:latest
     ```
@@ -101,7 +103,7 @@
     ```powershell
     docker compose up -d clean_architecture.database
     ```
-   会启动 docker-compose.yml 中配置的 Postgres 容器，默认 Port: 10002，Username: kitlau, Password: password。您也可以手动编辑 docker-compose.yml 进行配置。
+   会启动 docker-compose.yml 中配置的 Postgres 容器，默认 Port: 10002，Username: kitlau, Password: password。您也可以手动编辑 docker-compose.yml 进行配置
 4. 修改 src/WebAPI/ 目录中的 appsettings.json 的配置：
     ```json
     "UseInMemoryDatabase": false, // true 改为 false，表示不启用内存数据库
@@ -127,48 +129,52 @@ dotnet ef migrations add "SampleMigration" --project src\Infrastructure --startu
 3. NSubstitute - 用于代替 Moq 的库，我个人认为比 Moq 更易于使用
 4. SpecFlow - 常用于集成测试和接收测试
 
-测试项目还有一些特点：
+测试项目还有一些特色：
 
 ### 使用 docker 的干净集成测试
 
-tests/Application.Tests.Integration 使用 postgres docker 容器作为测试数据库，每个测试类/方法使用单独的数据库容器，使各测试类/方法之间互不影响，可以尽情对数据进行任何操作。
+tests/Application.Tests.Integration 项目使用 postgres docker 容器作为测试数据库，每个测试类/方法使用单独的数据库容器，使各测试类/方法之间互不影响，可以尽情对数据进行任何操作。
 
-各容器会在运行测试时自动创建，使用完毕后自动停止自动删除，干净利落。
+各容器会在运行测试时自动创建，使用完毕后自动停止，自动删除，干净利落。
 
 ### 使用 docker-compose 的接收测试
 
-tests/接收测试的环境和数据库会通过 docker compose 创建，你不需要手动运行项目，只运行测试即可。
+tests/接收测试的环境和数据库会通过 docker compose 创建，您不需要手动运行 WebAPI，只运行测试即可。
 
 ## Todo
 
 未来计划：
 1. 替换掉常规业务逻辑中抛异常的报错模式，改为直接返回 Error - 这种方式正日趋流行
-2. 优化 EF Core 配置的方式 - 目前的配置方式略显笨拙
-3. 优化授权认证代码 - 目前在认证出错时返回值很乱
+2. 修改 EF Core 配置的方式 - 目前的配置方式略显笨拙
+3. 修改授权认证代码 - 目前在认证出错时返回值很乱
 
 ## Not todo
 
 本解决方案将不会：
-1. 引入 Serilog 或 NLog 等日志库 - 引入日志库即使对初学者来说也并非难事，而且每个人的选择可能不同，引入我自己喜欢的库反而使这个解决方案模板不够 clean
+1. 引入 Serilog 或 NLog 等日志库 - 引入日志库并非难事，而且每个人的选择可能不同，引入我自己喜欢的库反而使这个解决方案模板不够 clean
 
 ## 这个项目的故事
 
-该项目最初使用 [jasontaylordev/CleanArchitecture](https://github.com/jasontaylordev/CleanArchitecture) 模板构建，虽重写了大部分代码，但总体的 Architecture 还是相似的。
+该项目使用 [jasontaylordev/CleanArchitecture](https://github.com/jasontaylordev/CleanArchitecture) 模板构建，虽重写了部分代码，但总体的 Architecture 依然相似。
 
-目前有很多优秀的 Clean Architecture 模板，例如 [ardalis/CleanArchitecture](https://github.com/ardalis/CleanArchitecture)。这些项目中我最喜欢 jason taylor 的架构和分层方式，所以选择了基于他的模板。
+目前有很多优秀的 Clean Architecture 模板，例如 [ardalis/CleanArchitecture](https://github.com/ardalis/CleanArchitecture)。其中我最喜欢 jason taylor 的架构和分层方式，所以选择了他的模板。
 
-我起初只是想使用 Clean Architecture 的模板构建项目，节省时间。后来我在使用模板过程中发现它依赖了 Microsoft.AspNetCore.ApiAuthorization.IdentityServer 这个库，该库又依赖了 Duende.IdentityServer，它是一个付费的库。 很多像我一样的贫困开发者承担这些付费库很困难。
+我起初只是想使用模板构建项目，节省时间。后来我发现它依赖了 Microsoft.AspNetCore.ApiAuthorization.IdentityServer 这个库，该库又依赖了 Duende.IdentityServer，一个付费的库。 很多像我一样的贫困开发者承担这些付费库很困难。
 
-<center><img width="768" alt="ip man said I am not gonna give you the money" src="https://raw.githubusercontent.com/Kit086/CleanArchitecture/main/.github/ip_man01.jpg" /></center>
+<img align="center" width="768" alt="ip man said I am not gonna give you the money" src="https://raw.githubusercontent.com/Kit086/CleanArchitecture/main/.github/ip_man01.jpg" />
 
-而且 jason taylor 的项目直接在 WebUI 层加了一个 Angular 的 SPA 模板，swagger 的生成方式也很奇怪，调用了本地的 C 盘里的一个 dll。可能因为我本地环境有点乱，我运行的前 4 次就失败了两次，无法直接运行起来使我难以接受。
+而且 jason taylor 的模板直接在 WebUI 层加了一个 Angular 的 SPA 模板，swagger 的生成方式也很奇怪，调用了本地的 C 盘里的一个 dll，看起来像使用 dotnet sdk 自带的 Angular 模板生成的。可能因为我本地环境有点乱，我运行的前 4 次就失败了两次，无法直接运让我难以接受。
 
-后来我又看了各个流行的 Clean Architecture 模板，但是它们都有各种不合我胃口的地方，例如 ardalis 的模板使用了 Autofac，它很好，只是我觉得引入了它使不符合我对 clean 的期待了。
+后来我又看了各个流行的 Clean Architecture 模板，但是它们都有各种不合我胃口的地方，例如 ardalis 的模板使用了 Autofac，它很好，只是我觉得引入了它不符合我对 clean 的期待了。
 
 这几个项目都有各自合与不合我胃口的点，所以对我来说：
 
-<center><img width="768" alt="ip man said each master has his own strengths and weaknesses" src="https://raw.githubusercontent.com/Kit086/CleanArchitecture/main/.github/ip_man02.jpg" /></center>
+<img align="center" width="768" alt="ip man said each master has his own strengths and weaknesses" src="https://raw.githubusercontent.com/Kit086/CleanArchitecture/main/.github/ip_man02.jpg" />
 
-最终只能自己造这个轮子。重写了 Identity 相关功能和各个测试项目。该项目本身代码是 clean 的，仅仅在运行测试时比较依赖 docker。如果您不喜欢 docker，可以轻松地改写或删除对 TodoList 和 TodoItem 功能的这些依赖 docker 的测试，毕竟您的项目大概率用不到这些功能。
+所以就有了该项目。该项目本身是 clean 的，仅仅在测试时比较依赖 docker。这也是这个项目的 clean 点之一，您不需要自己进行除 dotnet sdk 和 Docker 之外的配置，docker 会帮您完成一切。
 
-在我看来，写这个项目的学习意义大于实用意义。只有少量功能的项目不需要 Clean Architecture，用它只会多写很多 Query/Command 和 Handler，徒增代码的复杂程度，反而直接三层，一层，甚至 MinimalAPI 都可以；写大型项目又有为大型项目准备的框架。但是在写它时让我思考了很多问题，通过解决这些问题，又学会了很多东西，增长了很多经验。
+如果您不喜欢 docker，可以轻松地改写或删除对 TodoList 和 TodoItem 功能的这些依赖 docker 的测试，毕竟您的项目大概率用不到这些功能。
+
+在我看来，写这个项目的学习意义大于实用意义。只有少量功能的项目不需要 Clean Architecture，用它只会多写很多 Query/Command 和 Handler，徒增代码的复杂程度，反而直接三层，一层，甚至 MinimalAPI 就能实现需求；写大型项目，社区又有为大型项目准备的框架。
+
+但是在写该项目时让我思考了很多问题，通过解决这些问题，又学到很多。
